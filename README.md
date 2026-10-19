@@ -78,6 +78,14 @@ curl -H "Content-Type:application/json" -X POST 'http://localhost:8080/product/d
 ```
 代码路径：ProductController.deleteProduct
 
+### 构建与测试
+
+项目基于 Java 8 构建。运行 Maven 前请确认 `JAVA_HOME` 指向 JDK 8；当前的 `aspectjweaver:1.8.6` 在 JDK 23 下无法通过编译。
+
+```bash
+JAVA_HOME=/path/to/jdk8 PATH="$JAVA_HOME/bin:$PATH" mvn test
+```
+
 ### 使用方式
 
 注意：需要提前将jar ```mvn clean install -Dmaven.test.skip=true```进maven本地库或私库里
