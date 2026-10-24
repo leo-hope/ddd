@@ -31,52 +31,68 @@
 ![DDD分层架构](ddd.png)
 
 ### DEMO
-* 执行ddd-module-demo/ddd-bootstrap下的App类的main方法
-* 创建一个商品
+#### 启动 demo 程序
+执行ddd-module-demo/ddd-bootstrap下的App类的main方法
+
+#### 执行 demo 示例
+* 创建一个商品 
+
+    代码路径：ProductController.createProduct
 ```
 curl -H "Content-Type:application/json" -X POST http://localhost:8080/product/create --data '{"name":"test","description":"test description"}'
 ```
-代码路径：ProductController.createProduct
 
-* 获取商品信息(<a href="http://localhost:8080/product/get?productId=1" target="_blank">点击</a>)
-```
-http://localhost:8080/product/get?productId=1
-```
-代码路径：ProductController.getProduct
+* 获取商品信息
 
-* 获取商品信息(命令行)
-```
-curl -H "Content-Type:application/json"  -X GET 'http://localhost:8080/product/get?productId=1'
-```
-代码路径：ProductController.getProduct
+  代码路径：ProductController.getProduct
+
+    方式1：(<a href="http://localhost:8080/product/get?productId=1" target="_blank">点击</a>)
+    
+    ```
+    http://localhost:8080/product/get?productId=1
+    ```
+    
+    方式2：命令行
+    ```
+    curl -H "Content-Type:application/json"  -X GET 'http://localhost:8080/product/get?productId=1'
+    ```
+
 
 * 分页查询商品信息(<a href="http://localhost:8080/product/query?name=test" target="_blank">点击</a>)
 
-代码路径：ProductController.queryProducts
+    代码路径：ProductController.queryProducts
+
 
 * 修改商品
+  
+    代码路径：ProductController.updateProduct
 ```
 curl -H "Content-Type:application/json" -X POST http://localhost:8080/product/update --data '{"productId":"1","name":"test","description":"test description"}'
 ```
-代码路径：ProductController.updateProduct
+
 
 * 禁用商品
+
+    代码路径：ProductController.deactivateProduct
 ```
 curl -H "Content-Type:application/json" -X POST 'http://localhost:8080/product/deactivate?productId=1'
 ```
-代码路径：ProductController.deactivateProduct
+
 
 * 启用商品
+
+  代码路径：ProductController.activateProduct
 ```
 curl -H "Content-Type:application/json" -X POST 'http://localhost:8080/product/activate?productId=1'
 ```
-代码路径：ProductController.activateProduct
 
 * 删除商品
+
+    代码路径：ProductController.deleteProduct
 ```
 curl -H "Content-Type:application/json" -X POST 'http://localhost:8080/product/delete?productId=1'
 ```
-代码路径：ProductController.deleteProduct
+
 
 ### 构建与测试
 
@@ -119,7 +135,7 @@ JAVA_HOME=/path/to/jdk8 PATH="$JAVA_HOME/bin:$PATH" mvn test
 ### 重要组件介绍
 
 * ##### Command（命令）
-一个Command对象对应一个用例的请求数据
+一个 Command 对象对应一个用例的请求。
 ```
 @Data
 public class CreateProductCommand extends AbstractCommand<Result> {
@@ -137,7 +153,7 @@ public class CreateProductCommand extends AbstractCommand<Result> {
 ```
 
 * ##### Event（事件）
-表示一个领域事件，用例完成后，发布一个领域事件
+表示一个领域事件，用例完成后，发布一个领域事件。
 
 ```
 @Getter
@@ -152,7 +168,7 @@ public class ProductCreatedEvent extends AbstractEvent {
 ```
 
 * ##### CommandBus（命令总线）
-分发Command到对应的CommandHandler里去处理业务
+分发 Command 到对应的 CommandHandler 里去处理业务。
 ![命令总线UML图](https://mmbiz.qpic.cn/mmbiz_png/IuUJiciaodp4cjurx93TrL8KyPFBtQaXcm2DOIicqKiau4rqysAmFM5S90mPXctum5E0hnabP7tccUM8rm1g57b30A/0?wx_fmt=png)
 
 ```
@@ -177,7 +193,7 @@ public class ProductApplicationService {
 ```
 
 * ##### EventBus（事件总线）
-用来发布领域事件
+用来发布领域事件。
 ![事件总线UML图](https://mmbiz.qpic.cn/mmbiz_png/IuUJiciaodp4cjurx93TrL8KyPFBtQaXcmibuWZy32IUmFic1lY34ddfAqpRbfvlD7rp7zo93Q5ExJ78YAb7u525eA/0?wx_fmt=png)
 
 ```
@@ -213,7 +229,7 @@ public class ProductApplicationService {
 ```
 
 * ##### CommandHandler（命令处理器）
-用来实现用例，一个Command对应一个CommandHandler
+用来实现用例，一个 Command 对应一个 CommandHandler。
 
 ```
   @Component
@@ -236,7 +252,7 @@ public class ProductApplicationService {
     }
 ```
 * ##### CommandInterceptor（命令拦截器）
-用来拦截Command，支持多个CommandInterceptor处理同一个Command
+用来拦截 Command，支持多个 CommandInterceptor 处理同一个 Command。
 ```
 @Component
 @Order(1)
@@ -262,7 +278,7 @@ public class CreateProductInterceptor implements CommandInterceptor<CreateProduc
 
 ```
 * ##### CommandValidator（命令验证器）
-用来验证Command参数完整性或者业务前置校验，默认支持Hibernate Validator
+用来验证 Command 参数完整性或者业务前置校验，默认支持 Hibernate Validator。
 ```
 @Component
 public class CreateProductCommandValidator implements CommandValidator<CreateProductCommand> {
@@ -281,7 +297,7 @@ public class CreateProductCommandValidator implements CommandValidator<CreatePro
 }
 ```
 * ##### Assembler（组装器）
-用来组装查询请求数据，将领域实体对象转换成DTO后返回给外部使用，将领域对象封装在内部
+用来组装查询请求数据，将领域实体对象转换成 DTO 后返回给外部使用，将领域对象封装在内部。
 ```
 @Component
 public class CreateProductAssembler implements Assembler<Product, ProductDTO> {
@@ -298,7 +314,7 @@ public class CreateProductAssembler implements Assembler<Product, ProductDTO> {
 ```
 
 * ##### Converter（转换器）
-实现领域实体对象和数据对象之间的转换
+实现领域实体对象和数据对象之间的转换。
 ```
 @Component
 public class ProductConverter implements Converter<Product, ProductDO> {
