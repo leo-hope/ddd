@@ -51,7 +51,7 @@
         </dependency>
         <dependency>
             <groupId>com.runssnail.ddd</groupId>
-            <artifactId>ddd-infrastructure</artifactId>
+            <artifactId>ddd-infra</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

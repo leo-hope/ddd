@@ -14,7 +14,7 @@
     <modules>
         <module>ddd-adapter</module>
         <module>ddd-application</module>
-        <module>ddd-infrastructure</module>
+        <module>ddd-infra</module>
         <module>ddd-domain</module>
         <module>ddd-client</module>
         <module>ddd-bootstrap</module>
@@ -102,7 +102,7 @@
 
             <dependency>
                 <groupId>com.runssnail.ddd</groupId>
-                <artifactId>ddd-infrastructure</artifactId>
+                <artifactId>ddd-infra</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
 
