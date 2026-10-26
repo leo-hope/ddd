@@ -19,10 +19,10 @@
 
 ### 架构风格
 结合了<a href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html" target="_blank">整洁架构风格</a> 、CQRS风格以及分层架构风格，并采用依赖原则分4层，如下：
-* adapter 接口适配层（适配dubbo、restful接口等协议）
-* application 应用层（实现用例的地方，eg：电商场景里的用户下单、商家发布商品等等）
-* domain 领域层（写领域逻辑的地方，eg：电商场景里的用户下单包含订单逻辑、商品逻辑、以及优惠逻辑等）
-* infrastructure 基础层（放Cache、MQ框架、数据库持久实现等的地方）
+* adapter 接口适配层（适配dubbo、restful接口等协议）。
+* application 应用层（实现用例的地方，eg：电商场景里的用户下单、商家发布商品等等）。
+* domain 领域层（写领域逻辑的地方，eg：电商场景里的用户下单包含订单逻辑、商品逻辑、以及优惠逻辑等）。
+* infrastructure 基础层（放Cache、MQ框架、数据库持久实现等的地方）。
 
 模块依赖关系以及与<a href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html" target="_blank">整洁架构风格</a>模块对应关系：
 ![采用依赖倒置的依赖关系](https://mmbiz.qpic.cn/mmbiz_png/IuUJiciaodp4ePgKtYeUV7aroO6yQUTGzwvFPFUDqKkq0GmticL51s0f11Qjx5n6SB7x1bwY8Js4YbJWnVxiaDUrSQ/0?wx_fmt=png)
@@ -99,7 +99,14 @@ curl -H "Content-Type:application/json" -X POST 'http://localhost:8080/product/d
 项目基于 Java 8 构建。运行 Maven 前请确认 `JAVA_HOME` 指向 JDK 8；当前的 `aspectjweaver:1.8.6` 在 JDK 23 下无法通过编译。
 
 ```bash
-JAVA_HOME=/path/to/jdk8 PATH="$JAVA_HOME/bin:$PATH" mvn test
+# 环境变量
+JAVA_HOME=/path/to/jdk8 # 你的jdk实际路径
+PATH="$JAVA_HOME/bin:$PATH"
+```
+
+```
+# 测试
+mvn test
 ```
 
 ### 使用方式
@@ -115,7 +122,7 @@ JAVA_HOME=/path/to/jdk8 PATH="$JAVA_HOME/bin:$PATH" mvn test
 </dependency>
 ```
 
-增加spring配置，加入配置后，默认自动从spring上下文收集CommandHandler和EventHandler（需要在类上增加spring注解@Service、@Component等）
+增加 Spring 配置，加入配置后，默认自动从 Spring 上下文收集 CommandHandler 和 EventHandler（需要在类上增加spring注解@Service、@Component等）
 ```
 <bean id="commandBus" class="com.runssnail.ddd.spring.CommandBusFactoryBean"/>
 <bean id="eventBus" class="com.runssnail.ddd.spring.EventBusFactoryBean"/>
@@ -229,7 +236,7 @@ public class ProductApplicationService {
 ```
 
 * ##### CommandHandler（命令处理器）
-用来实现用例，一个 Command 对应一个 CommandHandler。
+用来实现用例，处理业务逻辑，一个 Command 对应一个 CommandHandler。
 
 ```
   @Component
